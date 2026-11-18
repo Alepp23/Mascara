@@ -30,11 +30,15 @@ body {
 
 .hero {
   container-type: inline-size;
+  --nav-top: calc(30 * var(--design-px));
+  --nav-height: calc(44.87 * var(--design-px));
+  --nav-bottom: calc(var(--nav-top) + var(--nav-height));
+  --nav-clearance: calc(var(--nav-bottom) + 12px);
 }
 
 .hero-intro {
   position: relative;
-  aspect-ratio: 1920 / 1125;
+  aspect-ratio: 1920 / 1227;
 }
 
 .hero-art {
@@ -47,10 +51,22 @@ body {
 
 .hero-art img {
   position: absolute;
-  left: 2.12175%;
-  top: calc(77.0984 * var(--design-px));
-  width: 93.7485%;
-  height: calc(1012.4248 * var(--design-px));
+  height: auto;
+}
+
+.hero-photo {
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.hero-fade {
+  position: absolute;
+  top: calc(632 * var(--design-px));
+  left: calc(213 * var(--design-px));
+  width: calc(1523 * var(--design-px));
+  aspect-ratio: 1523 / 661;
+  background: linear-gradient(180.483deg, transparent 9.1741%, #000 74.176%);
 }
 
 .hero-art::before, .hero-art::after {
@@ -73,11 +89,27 @@ body {
   background: linear-gradient(91.02deg, transparent 9.1741%, #000 74.176%);
 }
 
+.hero-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 0;
+}
+
+.hero-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--nav-clearance);
+  background: linear-gradient(#000 var(--nav-bottom), transparent);
+  pointer-events: none;
+}
+
 .hero-nav {
   position: absolute;
-  top: calc(30 * var(--design-px));
+  top: var(--nav-top);
   inset-inline: calc(48.5 * var(--design-px)) calc(46.5 * var(--design-px));
-  height: calc(44.87 * var(--design-px));
+  height: var(--nav-height);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -147,18 +179,22 @@ body {
   text-transform: uppercase;
 }
 
+.hero-description, .mask-gallery {
+  scroll-margin-block-start: var(--nav-clearance);
+}
+
 .mask-gallery {
-  padding-block: var(--motion-room, 0px) calc(12 * var(--design-px));
-  padding-inline: calc(19 * var(--design-px)) calc(20 * var(--design-px));
+  padding-block: var(--motion-room, 0px) calc(84 * var(--design-px));
+  padding-inline: calc(120 * var(--design-px)) calc(121 * var(--design-px));
   overflow: clip;
 }
 
 .mask-grid {
   --columns: 5;
   display: grid;
-  grid-template-columns: repeat(2, 1fr) 0.99424fr repeat(2, 1fr);
-  grid-auto-rows: calc(398 * var(--design-px));
-  gap: calc(12 * var(--design-px)) calc(12.154 * var(--design-px));
+  grid-template-columns: 327fr 328fr 325fr 328fr 327fr;
+  grid-template-rows: repeat(2, calc(366 * var(--design-px))) calc(367 * var(--design-px)) calc(355 * var(--design-px));
+  column-gap: calc(11 * var(--design-px));
   margin: 0;
   padding: 0;
   list-style: none;
@@ -169,42 +205,35 @@ body {
 .mask-tile {
   position: relative;
   min-inline-size: 0;
+  block-size: calc(355 * var(--design-px));
   overflow: hidden;
-  border-radius: max(8px, calc(25 * var(--design-px)));
-  background: var(--tile-background, #141414);
-  box-shadow: 0 calc(4 * var(--design-px)) calc(4 * var(--design-px)) #0004;
+  border-radius: calc(25 * var(--design-px));
   translate: 0 var(--column-drop, 0px);
-}
-
-.mask-tile:not(.mask-tile--exported)::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: max(0.65px, var(--design-px)) solid #cecece;
-  border-radius: inherit;
-  pointer-events: none;
 }
 
 .mask-tile img {
   position: absolute;
-  top: var(--crop-top);
-  left: var(--crop-left);
-  width: var(--crop-width);
-  height: var(--crop-height);
-  display: block;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.mask-tile--exported {
-  --crop-width: 102.46%;
-  --crop-height: 102.26%;
-  --crop-left: -1.23%;
-  --crop-top: -0.13%;
-  overflow: visible;
-  background: none;
-  box-shadow: none;
+.mask-tile--grain img {
+  inset: var(--crop-top) auto auto var(--crop-left);
+  width: var(--crop-width);
+  height: var(--crop-height);
+}
+
+.mask-tile--grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("./assets/hero/grain.png") center / 117% auto no-repeat;
+  pointer-events: none;
 }
 
 @media (width > 900px) {
+  .mask-tile:nth-child(n + 6):nth-child(-n + 15) { block-size: calc(356 * var(--design-px)); }
   .mask-tile:nth-child(5n + 1) { --column-drop: var(--outer-left); }
   .mask-tile:nth-child(5n + 2) { --column-drop: var(--inner-left); }
   .mask-tile:nth-child(5n + 4) { --column-drop: var(--inner-right); }
@@ -212,18 +241,36 @@ body {
 }
 
 @media (width <= 900px) {
+  .hero {
+    --nav-top: 18px;
+    --nav-height: 40px;
+  }
+
   .hero-intro {
     aspect-ratio: auto;
     min-height: clamp(420px, 64svh, 620px);
   }
 
-  .hero-art img {
+  .hero-art {
+    --photo-width: clamp(608px, 128cqw, 1110px);
+    --photo-bottom: 32px;
+  }
+
+  .hero-photo, .hero-fade {
     top: auto;
-    bottom: 12px;
     left: 50%;
-    width: clamp(570px, 120%, 1040px);
-    height: auto;
     translate: -50%;
+  }
+
+  .hero-photo {
+    width: var(--photo-width);
+    bottom: var(--photo-bottom);
+  }
+
+  .hero-art .hero-fade {
+    left: calc(50% + var(--photo-width) * 14.5 / 1920);
+    bottom: calc(var(--photo-bottom) - var(--photo-width) * 213 / 1920);
+    width: calc(var(--photo-width) * 1523 / 1920);
   }
 
   .hero-art::before, .hero-art::after {
@@ -243,9 +290,7 @@ body {
   }
 
   .hero-nav {
-    top: 18px;
     inset-inline: clamp(12px, 3.2vw, 28px);
-    height: 40px;
     gap: 8px;
     align-items: center;
     padding: 0 2px;
@@ -272,12 +317,14 @@ body {
   .mask-grid {
     --columns: 3;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: auto;
+    grid-template-rows: none;
     gap: 6px;
   }
 
   .mask-tile {
-    aspect-ratio: 366.9 / 398;
+    block-size: auto;
+    aspect-ratio: 327 / 355;
+    border-radius: 7.65% / 7.04%;
   }
 
   .mask-tile:nth-child(3n + 1) { --column-drop: var(--inner-left); }

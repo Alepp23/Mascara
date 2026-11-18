@@ -56,9 +56,12 @@ function measure() {
 
   const viewport = document.documentElement.clientHeight;
   const galleryTop = gallery.getBoundingClientRect().top + window.scrollY;
-  const galleryEndPadding = parseFloat(getComputedStyle(gallery).paddingBottom);
+  const galleryStyle = getComputedStyle(gallery);
   const gridStyle = getComputedStyle(grid);
-  const exitTop = Math.max(0, viewport - parseFloat(gridStyle.height) - galleryEndPadding);
+  const exitTop = Math.max(
+    parseFloat(galleryStyle.scrollMarginBlockStart),
+    viewport - parseFloat(gridStyle.height) - parseFloat(galleryStyle.paddingBottom),
+  );
   const start = Math.max(0, Math.round(galleryTop - viewport * 0.76));
   const entryTop = galleryTop - start;
 
