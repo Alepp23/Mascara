@@ -199,16 +199,6 @@ body {
   overflow: clip;
 }
 
-.mask-gallery::after {
-  content: "";
-  display: block;
-  inline-size: min(100%, calc(1067 * var(--design-px)));
-  aspect-ratio: 1067 / 902;
-  margin: calc(92 * var(--design-px)) 0 0 calc(8 * var(--design-px));
-  border: 1px solid var(--red);
-  border-radius: calc(25 * var(--design-px));
-}
-
 .mask-grid {
   --columns: 5;
   display: grid;
@@ -473,12 +463,6 @@ body {
   .mask-gallery {
     padding-inline: 8px;
     padding-block-end: 8px;
-  }
-
-  .mask-gallery::after {
-    inline-size: 70%;
-    margin: 30px 0 24px;
-    border-radius: 12px;
   }
 
   .mask-grid {

@@ -6,7 +6,12 @@
     <title>Máscara</title>
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./studio.css">
     <script src="./gallery.js" defer></script>
+    <script src="./assets/studio/face-mesh.js" defer></script>
+    <script src="./mask-materials.js" defer></script>
+    <script src="./mask-renderer.js" defer></script>
+    <script src="./studio.js" defer></script>
   </head>
   <body>
     <main class="hero" id="top">
@@ -15,7 +20,7 @@
           <a class="nav-label brand" href="#top">MÁSCARA</a>
           <div class="nav-links">
             <a class="nav-label" href="#masks">(MASKS)</a>
-            <span class="nav-label">(CREATE)</span>
+            <a class="nav-label" href="#try-on">(TRY ON)</a>
             <span class="nav-label">(ARCHIVES)</span>
             <a class="nav-label" href="#about">(ABOUT)</a>
           </div>
@@ -510,6 +515,66 @@
             </div>
           </li>
         </ul>
+      </section>
+      <section class="mask-studio" id="try-on" aria-labelledby="studio-title">
+        <div class="studio-intro">
+          <h2 id="studio-title">TRY ON A <em>MASK.</em></h2>
+          <p>Pick a mask, then turn on your camera to wear it in 3D.</p>
+        </div>
+
+        <div class="studio-shell" data-camera="idle">
+          <div class="studio-viewer">
+            <div class="studio-stage">
+              <video class="studio-video" aria-hidden="true" autoplay muted playsinline></video>
+              <img class="studio-fallback" src="./assets/hero/mask-09.png" alt="" hidden>
+              <canvas class="studio-render" aria-hidden="true"></canvas>
+              <div class="studio-guide" aria-hidden="true"></div>
+              <span class="studio-indicator" aria-hidden="true">3D PREVIEW</span>
+              <p class="studio-mask-name">Rey Mysterio</p>
+            </div>
+            <div class="studio-controls">
+              <p class="studio-status" role="status">Your video stays on this device.</p>
+              <button class="studio-camera" type="button" hidden><span aria-hidden="true"></span> <b>Start camera</b></button>
+              <noscript><p>Enable JavaScript for the camera try-on.</p></noscript>
+            </div>
+          </div>
+
+          <fieldset class="studio-picker" disabled>
+            <legend>Choose a mask</legend>
+            <div class="studio-options">
+              <label class="studio-option">
+                <input type="radio" name="studio-mask" value="rey" checked>
+                <img src="./assets/hero/mask-09.png" alt="" width="327" height="355" loading="lazy">
+                <span>Rey Mysterio</span>
+              </label>
+              <label class="studio-option">
+                <input type="radio" name="studio-mask" value="blue-demon">
+                <img src="./assets/hero/mask-05.png" alt="" width="327" height="355" loading="lazy">
+                <span>Blue Demon</span>
+              </label>
+              <label class="studio-option">
+                <input type="radio" name="studio-mask" value="mil-mascaras">
+                <img src="./assets/hero/mask-03.png" alt="" width="325" height="355" loading="lazy">
+                <span>Mil Máscaras</span>
+              </label>
+              <label class="studio-option">
+                <input type="radio" name="studio-mask" value="mistico">
+                <img src="./assets/hero/mask-06.png" alt="" width="327" height="355" loading="lazy">
+                <span>Místico</span>
+              </label>
+              <label class="studio-option">
+                <input type="radio" name="studio-mask" value="penta">
+                <img src="./assets/hero/mask-07.png" alt="" width="327" height="355" loading="lazy">
+                <span>Penta</span>
+              </label>
+              <label class="studio-option">
+                <input type="radio" name="studio-mask" value="templario">
+                <img src="./assets/hero/mask-16.png" alt="" width="327" height="355" loading="lazy">
+                <span>Templario</span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
       </section>
     </main>
   </body>
