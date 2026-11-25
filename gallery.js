@@ -12,6 +12,66 @@ const columnMotion = [
 
 let scene;
 let frame;
+let activeCard;
+
+function setFlipped(card, flipped) {
+  if (!flipped && card.back.contains(document.activeElement)) {
+    card.toggle.focus({ preventScroll: true });
+  }
+  card.tile.toggleAttribute("data-flipped", flipped);
+  card.toggle.setAttribute("aria-expanded", String(flipped));
+  card.back.inert = !flipped;
+}
+
+function revealCard(card) {
+  if (activeCard === card) return;
+  if (activeCard) setFlipped(activeCard, false);
+  activeCard = card;
+  if (activeCard) setFlipped(activeCard, true);
+}
+
+for (const tile of grid.children) {
+  const toggle = tile.querySelector(".mask-toggle");
+  const card = { tile, toggle, back: tile.querySelector(".mask-back"), hovered: false };
+  toggle.hidden = false;
+
+  tile.addEventListener("pointerenter", (event) => {
+    if (event.pointerType !== "mouse") return;
+    card.hovered = true;
+    if (!activeCard?.back.contains(document.activeElement)) revealCard(card);
+  });
+
+  tile.addEventListener("pointerleave", (event) => {
+    if (event.pointerType !== "mouse") return;
+    card.hovered = false;
+    if (activeCard === card && !tile.contains(document.activeElement)) revealCard(null);
+  });
+
+  toggle.addEventListener("click", () => revealCard(activeCard === card ? null : card));
+  tile.addEventListener("focusout", (event) => {
+    if (activeCard === card && !card.hovered && !tile.contains(event.relatedTarget)) revealCard(null);
+  });
+}
+
+document.addEventListener("pointerdown", (event) => {
+  if (activeCard && !activeCard.tile.contains(event.target)) revealCard(null);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && activeCard) {
+    event.preventDefault();
+    revealCard(null);
+  }
+});
+
+grid.addEventListener("focusin", (event) => {
+  if (!scene || !event.target.matches(".mask-toggle:focus-visible")) return;
+  const settled = scene.start + scene.distance;
+  if (window.scrollY < settled) {
+    window.scrollTo(0, settled);
+    draw();
+  }
+});
 
 function clamp(value) {
   return Math.min(1, Math.max(0, value));
